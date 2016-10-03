@@ -91,13 +91,15 @@ function eval (x, env) {
     });
     return eval (out, env)
   }
+  var expr1 = typeof eval (x[1], env)
+  var expr2 = typeof eval (x[2], env)
   if (typeof x[2] === 'undefined') {
-    if (typeof eval (x[1], env) === 'function') return eval (x[0], env) (eval (x[1](), env))
+    if (expr1 === 'function') return eval (x[0], env) (eval (x[1](), env))
     return eval (x[0], env) (eval (x[1], env))
   }
-  if (typeof eval (x[1], env) === 'function' && typeof eval (x[2], env) === 'function') return eval (x[0], env) (eval (x[1], env) (), eval (x[2], env) ())
-  if (typeof eval (x[1], env) === 'function') return eval (x[0], env) (eval (x[1], env) (), eval (x[2], env))
-  if (typeof eval (x[2], env) === 'function') return eval (x[0], env) (eval (x[1], env), eval (x[2], env) ())
+  if (expr1 === 'function' && expr2 === 'function') return eval (x[0], env) (eval (x[1], env) (), eval (x[2], env) ())
+  if (expr1 === 'function') return eval (x[0], env) (eval (x[1], env) (), eval (x[2], env))
+  if (expr2 === 'function') return eval (x[0], env) (eval (x[1], env), eval (x[2], env) ())
   return eval (x[0], env) (eval (x[1], env), eval (x[2], env))
 }
 
