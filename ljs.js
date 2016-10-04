@@ -42,7 +42,7 @@ function Env (params, args, outer) {
 
 var global_env = {
   '+': function (a, b) { return a+b },
-  '-': function (a, b) { if (b == null) b = 0; return a - b },
+  '-': function (a, b) { if (b == null) return -a; return a - b },
   '*': function (a, b) { return a * b },
   '/': function (a, b) { return a / b },
   '>': function (a, b) { return a > b },
@@ -92,11 +92,11 @@ function eval (x, env) {
     return eval(out, env)
   }
   var expr1 = typeof eval(x[1], env)
-  var expr2 = typeof eval(x[2], env)
   if (typeof x[2] === 'undefined') {
-    if (expr1 === 'function') return eval(x[0], env) (eval(x[1](), env))
-    return eval(x[0], env) (eval(x[1], env))
+    if (expr1 === 'function') return eval(x[0], env)(eval(x[1](), env))
+    return eval(x[0], env)(eval(x[1], env))
   }
+  var expr2 = typeof eval(x[2], env)
   if (expr1 === 'function' && expr2 === 'function') return eval(x[0], env)(eval(x[1], env)(), eval(x[2], env)())
   if (expr1 === 'function') return eval(x[0], env)(eval(x[1], env)(), eval(x[2], env))
   if (expr2 === 'function') return eval(x[0], env)(eval(x[1], env), eval(x[2], env)())
