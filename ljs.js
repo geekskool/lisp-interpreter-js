@@ -112,6 +112,5 @@ const rl =  readline.createInterface({
 rl.on ('line', (input) => {
 	input = input.trim()
 	var solution = eval((parse(tokenize (input))), env)
-	if (typeof solution === 'undefined') {}
-	else console.log(solution)
+	if (typeof solution !== 'undefined') console.log(solution)
 })
